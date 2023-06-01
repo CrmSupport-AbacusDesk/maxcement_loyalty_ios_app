@@ -1,0 +1,61 @@
+page-home {
+    .company-logo{
+        display: flex;
+        align-items: center;
+        padding: 6px 0px;
+        
+        img{
+            // width: 60px;
+            height: 42px;
+            object-fit: contain;
+        }
+    }
+    
+    .share-text{
+        font-size: 11px;
+        text-transform: capitalize;
+    }
+    
+    img.reward-img {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        height: 50px;
+    }
+    .reward-text{
+        text-align: center;
+        margin: 0 auto;
+        margin-top: 19px;
+        padding-right: -21px;
+        padding-left: 12px;
+        font-weight: 700;
+    }
+    
+    .user-strip {
+        background: #009241;
+        color: #fff;
+        font-size: 16px;
+        padding: 16px 10px;
+        position: relative;
+
+        
+        h2{
+            font-size: 16px;
+        }
+        
+        i{
+            font-size: 36px;
+            width: 40px;
+            height: 40px;
+            text-align: center;
+            line-height: 40px;
+            border-radius: 10px;
+            position: absolute;
+            top: 50%;
+            right: 10px;
+            color: #fff;
+            transform: translateY(-50%);
+        }
+    }
+}

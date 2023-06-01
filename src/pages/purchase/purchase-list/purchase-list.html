@@ -1,0 +1,134 @@
+
+<ion-header no-border>
+  <ion-navbar>
+    <ion-title>{{'Purchase List' |  translate}}</ion-title>
+  </ion-navbar>
+  <ion-toolbar color="secondary" >
+    <div class="pl16">
+      <ion-searchbar type='text' placeholder="{{'Search' | translate}}" name='search' #search="ngModel" [(ngModel)]="filter.search" 
+      (ngModelChange)="purchaseList(filter.search, types, details)"></ion-searchbar>
+    </div>
+  </ion-toolbar>
+  
+  
+  <ion-toolbar color="white" class="cs-toolbar"  *ngIf="teamExist > 0">
+    <div>
+      <ion-segment [(ngModel)]="types">
+        <ion-segment-button value="My" (click)="purchaseList('', types, details)">
+          <span class="black capitalize">{{ 'My Sites' | translate }}</span>
+        </ion-segment-button>
+        <ion-segment-button value="Team" (click)="purchaseList('',types, details)">
+          <span class="black capitalize">{{ 'Team Site' | translate }}</span>
+        </ion-segment-button>
+      </ion-segment>
+    </div>
+  </ion-toolbar>
+  <ion-toolbar color="white" class="cs-toolbar">
+    <div [ngClass]="{'ion-tab-btn': teamExist > 0, 'round-tab':teamExist > 0, 'pt10':teamExist > 0, 'pb10':teamExist > 0}">
+      <ion-segment [(ngModel)]="details">
+        <ion-segment-button value="Pending" (click)="purchaseList('', types, details)">
+          <span class="black capitalize">{{ 'Pending' | translate }} ({{pending_count}})</span>
+        </ion-segment-button>
+        
+        <ion-segment-button value="Verified" (click)="purchaseList('', types, details)">
+          <span class="black capitalize">{{ 'Verified' | translate }} ({{verified_count}})</span>
+        </ion-segment-button>
+        
+        <ion-segment-button value="Reject" (click)="purchaseList('', types, details)">
+          <span class="black capitalize">{{ 'Reject' | translate }} ({{rejected_count}})</span>
+        </ion-segment-button>
+      </ion-segment>
+      
+    </div>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content >
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="{{'Pull to refresh' | translate}}" refreshingSpinner="circles" refreshingText="{{'Refreshing...' | translate}}">
+    </ion-refresher-content>
+  </ion-refresher>
+  
+  
+  <div class="padding16 mb50">
+    <!-- [ngClass]="{'Pending': row.dealer_status == 'Pending' && row.company_status == 'Pending', 'Verified': row.dealer_status == 'Verified' && row.company_status == 'Verified', 'Reject': row.dealer_status == 'Reject' && row.company_status == 'Reject' }" -->
+    <div class="cs-list"  *ngFor="let row of data; let i = index;">
+      <div class="top-block"   (click)="purchaseDetail(row.id)">
+        <p><a class="link">#Pur{{row.id}}</a> &nbsp;      {{row.date_created |  date:'d MMMM y'}}</p>
+        <ion-icon name="arrow-forward"   ios="ios-arrow-forward"></ion-icon>
+      </div>
+      <div class="middle-block"   (click)="purchaseDetail(row.id)">
+        <div class="three-block pb0">
+          <p>{{'Created By' | translate}} : <strong>{{row.created_name | titlecase}}</strong></p>
+        </div>
+        <div class="three-block pb0">
+          <p>{{'Site Address' | translate}} : <strong>{{row.site_address}}, {{row.state}}, {{row.district}}</strong></p>
+        </div>
+        <div class="three-block">
+          <p>{{'Product' | translate}} : <strong>{{row.product_name}}</strong></p>
+          <p>{{'QTY.' | translate}} : <strong>{{row.qty}}</strong> </p>
+        </div>
+        
+        <div class="three-block">
+          <p >{{'Status' | translate}} : <strong class="{{row.dealer_status}}">{{row.dealer_status}}</strong></p>
+          <!-- <p *ngIf="row.verify_at == 'SalesTeam'">{{'Status' | translate}} : <strong class="{{row.company_status}}">{{row.company_status}}</strong> </p> -->
+        </div>
+      </div>
+      <!-- *ngIf="(!(row.verify_at == 'Dealer' && userType == '2') || !(row.verify_at == 'SalesTeam' && userType == '3'))" -->
+      <div class="top-block footer-block"   (click)="purchaseDetail(row.id)" *ngIf="(row.user_type != userType && row.dealer_status == 'Pending')">
+        <ng-container >
+          <p>{{'Pending At' | translate}}. : <strong>{{row.verify_pending_name}}</strong></p>
+        </ng-container>
+      </div>
+      
+      <div class="top-block footer-block ds-block" *ngIf="(row.user_type == userType && row.dealer_status == 'Pending')">
+        <ng-container >
+          
+          <ion-list no-lines class="flex-radio" radio-group [name]="'new_dealer_status'+i"  [(ngModel)] = "row.new_dealer_status">
+            <ion-item >
+              <ion-radio value="Verified" ></ion-radio>
+              <ion-label>{{'Verified' | translate}}</ion-label>
+            </ion-item>
+            
+            <ion-item>
+              <ion-radio value="Reject" ></ion-radio>
+              <ion-label>{{'Reject' | translate}}</ion-label>
+            </ion-item>
+          </ion-list>
+          <div class="cs-form" *ngIf="row.new_dealer_status == 'Reject'">
+            <ion-list>
+              <ion-item class="cs-input h100">
+                <ion-label floating>{{'Reason' | translate}}*</ion-label>
+                <ion-textarea name="reason" [(ngModel)] = "row.reason"></ion-textarea>
+              </ion-item>
+            </ion-list>
+          </div>
+          
+          <a class="capitalize" (click)="updateStatus(row.id, row.new_dealer_status, row.reason)" ion-button round full>{{'Update' | translate}}</a>
+          
+          <!-- <button class="capitalize" (click)="openmodal(row.id, row.dealer_status)" ion-button round full>{{'Change Status' | translate}}</button> -->
+        </ng-container>
+      </div>
+      <div class="top-block footer-block"   (click)="purchaseDetail(row.id)"  *ngIf="userType == '2' && row.dealer_points > 0">
+        <p>{{'Earned Points' | translate}}: {{row.dealer_points}}</p>
+      </div>
+      <div class="top-block footer-block"   (click)="purchaseDetail(row.id)"  *ngIf="userType == '1' && row.karigar_points > 0 ">
+        <p>{{'Earned Points' | translate}}: {{row.karigar_points}}</p>
+      </div>
+    </div>
+    
+    <div class="image-detail"  *ngIf="!data.length">
+      <img src="assets/imgs/no_found.svg">
+    </div>
+  </div>
+  <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)"  *ngIf="flag!=1">
+    <ion-infinite-scroll-content
+    loadingSpinner="bubbles"
+    loadingText="{{'Loading more data...' | translate}}">
+  </ion-infinite-scroll-content>
+</ion-infinite-scroll>
+<!-- *ngIf="userType == '1' || userType == '3'" -->
+<ion-fab right bottom *ngIf="userType == 1 || userType == 4">
+  <button ion-fab  (click)="addPurchase()"> <ion-icon  name="add"></ion-icon></button>
+</ion-fab>
+</ion-content>

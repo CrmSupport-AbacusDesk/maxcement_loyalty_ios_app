@@ -1,0 +1,26 @@
+
+
+
+<ion-header>
+  <ion-navbar (click)="closeModal()">
+    <ion-title ><i class="material-icons" style="padding-top: 6px;">clear</i></ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding style="background: #000;">
+  <div class="modal-center">
+    <div class="cs-model-body">
+      
+      <div class="img-radius flat-img">
+        <pinch-zoom  class="pinch-big_zoom" *ngIf="type != 'normal'">
+          <img  src="{{uploadUrl+profile_pic}}">
+        </pinch-zoom>
+
+        <pinch-zoom  class="pinch-big_zoom" *ngIf="type == 'normal'">
+            <img  src="{{uploadUrl+profile_pic}}">
+            <p class="fix-text">{{loaction}} {{date | date:'d MMMM y, h:mm a'}}</p>
+        </pinch-zoom>
+      </div>
+    </div>
+  </div>
+</ion-content>

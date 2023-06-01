@@ -1,0 +1,18 @@
+page-site-detail {
+    .chickin{
+        background: #49cb37!important;
+    padding: 6px!important;
+    border-radius: 4px!important;
+    }
+
+    .two-btns{
+        display: flex;
+        grid-column-gap: 10px;
+        padding: 10px;
+
+        button{
+            width: 100%;
+            text-transform: capitalize !important;
+        }
+    }
+}

@@ -1,0 +1,236 @@
+
+<ion-header>
+  <ion-navbar>
+    <ion-title>{{'Purchase Detail' | translate}}</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="{{'Pull to refresh' | translate}}" refreshingSpinner="circles" refreshingText="{{'Refreshing...' | translate}}">
+    </ion-refresher-content>
+  </ion-refresher>
+  
+  <div class="mt16 pl16 mb16 pr16">
+    <div class="cs-list">
+      <div class="top-block">
+        <p><a class="link">#Pur{{getData.id}}</a> &nbsp; {{'Date Created' | translate}}  {{getData.date_created |  date:'d MMMM y'}}</p>
+      </div>
+      <div class="table-list">
+        <table>
+          <tr>
+            <td class="w100">{{'Created By' | translate}}</td>
+            <td><strong>{{getData.created_name | titlecase}}</strong></td>
+          </tr>
+          <tr>
+            <td class="w100">{{'Owner Detail' | translate}}</td>
+            <td><strong>{{getData.site_owner_name}} ({{getData.site_owner_contact}})</strong></td>
+          </tr>
+          <tr *ngIf="(userType == '2' || userType == '3') && getData.first_name">
+            <td class="w100">{{'Max Bahubali (Contractor) Detail' | translate}}</td>
+            <td><strong>{{getData.first_name}} ({{getData.mobile_no}})</strong></td>
+          </tr>
+          <tr *ngIf="(userType == '2' || userType == '3') && getData.engineer_name">
+            <td class="w100">{{'Engineer Detail' | translate}}</td>
+            <td><strong>{{getData.engineer_name}} ({{getData.engineer_mobile}})</strong></td>
+          </tr>
+
+          <tr  *ngIf="userType == '1' || userType == '3'">
+            <td class="w100">{{'Channel Partner Detail' | translate}}</td>  
+            <td><strong>{{getData.dealer_name}} ({{getData.dealer_mobile_no}})</strong></td>
+          </tr>
+          
+        </table>
+      </div>
+      <!-- <div class="middle-block">
+        <div class="three-block top-bdr" *ngIf="getData.verify_at == 'SalesTeam'">
+          <p>{{'Status' | translate}} : <strong class="{{getData.company_status}}">{{getData.company_status}}</strong> </p>
+        </div>
+        <div class="three-block" *ngIf="getData.company_status_updated_date != NULL ">
+          <p >{{'Status Updated BY' | translate}} : <strong>{{getData.company_status_updated_name | titlecase}} - {{getData.company_status_updated_date |  date:'d MMM y, h:mm a'}}</strong> </p>
+        </div>
+        <div class="three-block" *ngIf="getData.company_status_reason && getData.company_status == 'Reject'">
+          <p>{{'Reason For Reject by Company' | translate}} : <strong>{{getData.company_status_reason}}</strong></p>
+        </div>
+      </div> -->
+    </div>
+    
+    
+    <div class="cs-list">
+      <div class="top-block">
+        <p>{{'Site Address' | translate}}</p>
+      </div>
+      <div class="table-list">
+        <table>
+          <tr>
+            <td class="w100">{{'Address' | translate}} </td>
+            <td><strong>{{getData.site_address}}</strong></td>
+          </tr>
+          <tr>
+            <td class="w100">{{'State' | translate}} </td>
+            <td><strong>{{getData.state}}</strong></td>
+          </tr>
+          <tr>
+            <td class="w100">{{'District' | translate}}</td>
+            <td><strong>{{getData.district}}</strong></td>
+          </tr>
+          <tr>
+            <td class="w100">{{'City' | translate}}</td>
+            <td><strong>{{getData.city}}</strong></td>
+          </tr>
+          <tr>
+            <td class="w100">{{'Pincode' | translate}}</td>
+            <td><strong>{{getData.pincode}}</strong></td>
+          </tr>
+          
+        </table>
+      </div>
+    </div>
+    
+    <div class="cs-list">
+      <div class="top-block">
+        <p>{{'Product Detail' | translate}}</p>
+      </div>
+      <div class="table-list">
+        <table>
+          <tr>
+            <td class="w100">{{'Product' | translate}}</td>
+            <td><strong>{{getData.product_name}}</strong></td>
+          </tr>
+          <tr>
+            <td class="w100">{{'QTY.' | translate}}</td>
+            <td><strong>{{getData.qty}}</strong></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    
+    <div class="cs-list">
+      <div class="top-block">
+        <p>{{'Executive Detail' | translate}}</p>
+      </div>
+      <div class="table-list"   *ngIf="user.length">
+        <table>
+          <tr>
+            <td  class="white-bg"><strong>{{'Name' | translate}}</strong></td>
+            <td class="w110"><strong>{{'Code' | translate}}</strong></td>
+          </tr>
+          <tr *ngFor="let row of user">
+            <td class="white-bg">{{row.assignee_name}}</td>
+            <td><strong>{{row.assignee_code}}</strong></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+   
+    
+    
+    
+    
+    
+    
+    <div class="cs-list pt0">
+      <div class="table-list">
+        <table>
+          <tr>
+            <td class="w100">{{'Status' | translate}}</td>
+            <td  class="{{getData.dealer_status}}"><strong>{{getData.dealer_status}}</strong></td>
+          </tr>
+          <tr *ngIf="getData.dealer_status_reason && getData.dealer_status == 'Reject'">
+            <td class="w100">{{'Reason' | translate}}</td>
+            <td><strong>{{getData.dealer_status_reason}}</strong></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="cs-list" *ngIf="userType == '2' && getData.dealer_points > 0">
+      <div class="top-block">
+        <p>{{'Point Detail' | translate}}</p>
+      </div>
+      <div class="table-list">
+        <table>
+          <tr>
+            <td class="white-bg" >{{'Earn Points' | translate}}</td>
+            <td class="w110"><strong class="font18">{{getData.dealer_points}}</strong></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    <div class="cs-list" *ngIf="userType == '1' && getData.karigar_points > 0 ">
+      <div class="top-block">
+        <p>{{'Point Detail' | translate}}</p>
+      </div>
+      <div class="table-list">
+        <table>
+          <tr>
+            <td class="white-bg">{{'Earn Points' | translate}}</td>
+            <td class="w110"><strong class="font18">{{getData.karigar_points}}</strong></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="cs-list" *ngIf="userType == '1' && getData.engineer_points > 0 ">
+      <div class="top-block">
+        <p>{{'Point Detail' | translate}}</p>
+      </div>
+      <div class="table-list">
+        <table>
+          <tr>
+            <td class="white-bg">{{'Earn Points' | translate}}</td>
+            <td class="w110"><strong class="font18">{{getData.engineer_points}}</strong></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+
+    <div class="cs-list"  *ngIf="userType == '3' && (getData.dealer_points > 0 &&  (getData.karigar_points > 0 || getData.engineer_points > 0))">
+      <div class="top-block">
+        <p>{{'Point Detail' | translate}}</p>
+      </div>
+      <div class="table-list">
+        <table>
+          <tr>
+            <td class="white-bg">{{'Channel Partner Points' | translate}}</td>
+            <td class="w100"><strong class="font18">{{getData.dealer_points}}</strong></td>
+          </tr>
+          <tr *ngIf="getData.karigar_points > 0">
+            <td class="white-bg" >{{'Max Bahubali (Contractor) Points' | translate}}</td>
+            <td><strong class="font18">{{getData.karigar_points}}</strong></td>
+          </tr>
+
+          <tr *ngIf="getData.engineer_points > 0">
+            <td class="white-bg" >{{'Engineer Points' | translate}}</td>
+            <td><strong class="font18">{{getData.engineer_points}}</strong></td>
+          </tr>
+
+          <tr *ngIf="getData.sales_user_point != ''">
+            <td class="white-bg">{{'Sales User Points' | translate}}</td>
+            <td><strong class="font18">{{getData.sales_user_point}}</strong></td>
+          </tr>
+        </table>
+      </div>
+    </div>
+    
+    <p *ngIf="getData.dealer_status_updated_date != NULL" class="text-status">{{'Status Updated By' | translate}} : <strong>{{getData.dealer_status_updated_name | titlecase}} - {{getData.dealer_status_updated_date |  date:'d MMM y, h:mm a'}}</strong></p>
+    
+    
+    <!-- <div class="pl16 pr16" *ngIf="(getData.verify_at == 'Dealer' && userType == '2' && getData.dealer_status == 'Pending')  || (getData.verify_at == 'SalesTeam' && userType == '3' && getData.company_status == 'Pending')"> -->
+     
+     
+      <div class="pl16 pr16" *ngIf="((getData.verify_at == 'Dealer' && userType == '2') || (getData.verify_at == 'SalesTeam' && userType == '3')) && getData.dealer_status == 'Pending'">
+        <button class="capitalize" (click)="openmodal()" ion-button round full>{{'Change Status' | translate}}</button>
+      </div>
+    </div>
+    
+    
+    
+    
+    
+    <ion-fab right bottom *ngIf="userType == 1 && (getData.dealer_status == 'Pending' && getData.company_status == 'Pending')">
+      <button ion-fab  (click)="editDetail()"> <ion-icon name="create"></ion-icon></button>
+    </ion-fab>
+  </ion-content>
+  

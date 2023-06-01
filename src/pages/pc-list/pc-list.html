@@ -1,0 +1,143 @@
+<!--
+  Generated template for the PcListPage page.
+  
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header no-border>
+  <ion-navbar>
+    <ion-title *ngIf="userFilter == '1'">{{'Max Bahubali (Contractor)' | translate}}</ion-title>
+    <ion-title *ngIf="userFilter == '4'">{{'Engineer' | translate}}</ion-title>
+  </ion-navbar>
+  <ion-toolbar color="secondary" >
+    <div class="pl16">
+      <ion-searchbar type='text' placeholder="{{'Search' | translate}}" name='search' #search="ngModel" [(ngModel)]="filter.search" 
+      (ngModelChange)="userType == 3 ? pcList(filter.search,details) : myPc(filter.search,details)"></ion-searchbar>
+    </div>
+  </ion-toolbar>
+  <ion-toolbar color="white" class="cs-toolbar" *ngIf="userType == 3">
+    <ion-segment [(ngModel)]="details">
+      <ion-segment-button value="Pending" (click)="pcList('', details)">
+        <span class="black capitalize">{{ 'Pending' | translate }} ({{pending_count}})</span>
+      </ion-segment-button>
+      
+      <ion-segment-button value="Verified" (click)="pcList('', details)">
+        <span class="black capitalize">{{ 'Verified' | translate }} ({{verified_count}})</span>
+      </ion-segment-button>
+      
+      <ion-segment-button value="Reject" (click)="pcList('', details)">
+        <span class="black capitalize">{{ 'Reject' | translate }} ({{rejected_count}})</span>
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-refresher (ionRefresh)="doRefresh($event, details)">
+    <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="{{'Pull to refresh' | translate}}" refreshingSpinner="circles" refreshingText="{{'Refreshing...' | translate}}">
+    </ion-refresher-content>
+  </ion-refresher>
+  
+  
+  <div class="pr16 pl16 mb70 mt16">
+    <div *ngFor="let row of pcData; let i = index;" class="cs-list pb0" [ngClass]="{'red_line': row.pc_potential == 0 && row.status == 'Verified'}" >
+      <ng-container  (click)="Detail(row.id)">
+        <div class="top-block"  >
+          <p>{{row.date_created |  date:'d MMMM y'}}</p>
+          <ion-icon name="arrow-forward" style="color: #4b9f5e;" ios="ios-arrow-forward"></ion-icon>
+        </div>
+        <div class="middle-block">
+          <div class="info mb10" (click)="Detail(row.id)">
+            <div class="blocks">
+              <p><span>{{'Created By' | translate}}. :</span> {{row.created_name ? row.created_name : 'Self'}}</p>
+            </div>
+          </div>
+          
+          <div class="info" (click)="Detail(row.id)">
+            <div class="text-circel">
+              {{row.first_name ? row.first_name[0].toUpperCase():'' }}
+            </div>
+            <div class="blocks">
+              <p>{{row.first_name | titlecase}}</p>
+              <p><span>{{'Mobile No' | translate}}. :</span> {{row.mobile_no}}</p>
+            </div>
+          </div>
+          <div class="info mt10" (click)="Detail(row.id)">
+            <div class="blocks">
+              <p><span>{{'Status' | translate}} :</span> <strong class="{{row.status}}">{{row.status}}</strong> </p>
+            </div>
+            <div class="blocks">
+              <p><span>{{'KYC Status' | translate}} :</span> <strong class="{{row.kyc_status}}">{{row.kyc_status}}</strong> </p>
+            </div>
+          </div>
+          <div class="info mt10" (click)="Detail(row.id)" *ngIf="row.pc_potential > 0">
+            <div class="blocks">
+              <p><span>{{'Monthly Potential (Bags)' | translate}}. :</span> <strong>{{row.pc_potential}}</strong> </p>
+            </div>
+          </div>
+          <div class="info mt10 mb10" (click)="Detail(row.id)">
+            <div class="blocks">
+              <p><span>{{'Address' | translate}}. :</span> {{row.address | titlecase}} {{row.city}} {{row.district}} {{row.state}} ({{row.pincode}}) </p>
+            </div>
+          </div>
+          <div class="info mb10" (click)="Detail(row.id)" *ngIf="row.reason && row.status  == 'Reject'">
+            <div class="blocks">
+              <p><span style="color: #f53d3d !important;">{{'Reason' | translate}}. :</span> {{row.reason}}</p>
+            </div>
+          </div>
+        </div>
+        
+        <!-- <ng-container *ngFor="let row1 of row.sales_executives"> 
+          <div class="block-item" *ngIf="row1.karigar_sales_user_id != dbService.karigar_id && row.status == 'Pending'">
+            <div class="column-blocks bg-grey">
+              <div class="blocks">
+                <p>{{'Pending At' | translate}}. : 
+                  <strong class="mr5" >{{row1.karigar_sales_user_name}}</strong>
+                </p>
+              </div>
+            </div>
+          </div>
+        </ng-container> -->
+      </ng-container> 
+      
+      <ng-container *ngIf="approval_right == 'Active'">   
+        <!-- <ng-container *ngFor="let row1 of row.sales_executives">    -->
+          <!-- *ngIf="row1.karigar_sales_user_id == dbService.karigar_id && row.status == 'Pending'" -->
+          <div class="block-item mt10" *ngIf="row.status == 'Pending'">
+            <div class="column-blocks">
+              <div class="blocks">
+                <button ion-button  style="text-transform: capitalize;" (click)="changeStatus(row.id, row.status)" full round>{{'Change Status' | translate}}</button>
+
+              </div>
+            </div>
+          </div>  
+
+          <div class="block-item mt10" *ngIf="row.status == 'Verified' && (row.pc_potential == 0 ||  row.pc_potential == '')">
+            <div class="column-blocks">
+              <div class="blocks">
+                <button ion-button  style="text-transform: capitalize; background-color: #3ab1cb;" (click)="changeStatusPotential_bag(row.id, row.pc_potential)" full round>{{'Update Potential Bag' | translate}}</button>
+
+              </div>
+            </div>
+          </div>
+        <!-- </ng-container>    -->
+      </ng-container>  
+    </div>
+    
+    <div class="image-detail"  *ngIf="!pcData.length">
+      <img src="assets/imgs/no_found.svg">
+    </div>
+  </div>
+  <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)"  *ngIf="flag!=1">
+    <ion-infinite-scroll-content
+    loadingSpinner="bubbles"
+    loadingText="{{'Loading more data...' | translate}}">
+  </ion-infinite-scroll-content>
+</ion-infinite-scroll>
+
+<ion-fab right bottom *ngIf="userType == 3">
+  <button ion-fab  (click)="addPc()"> <ion-icon name="add" ></ion-icon></button>
+</ion-fab>
+</ion-content>
+
+

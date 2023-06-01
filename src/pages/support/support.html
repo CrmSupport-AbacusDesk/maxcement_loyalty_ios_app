@@ -1,0 +1,104 @@
+<!--
+  Generated template for the SupportPage page.
+  
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+  <ion-navbar>
+    <ion-title>{{'Support' | translate}}</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  
+  <!-- <form #f='ngForm' (submit)=" f.form.valid ? submit(f):''"> -->
+  <form #f='ngForm' (submit)=" f.form.valid ? submit(f):''">
+    
+    <div class="cs-form main-padding-16">
+      <ion-list>
+        <ion-item class="cs-select" [ngClass]="{'error':f.submitted && category?.invalid}">
+          <ion-label >{{'Category' | translate}} *</ion-label>
+          <ion-select name="category" [(ngModel)]="data.category" #category="ngModel" required>
+            <ion-option *ngFor="let row of Support_Type" value="{{row.category_name}}">{{row.category_name}}</ion-option>
+          </ion-select>
+        </ion-item>
+        <div *ngIf="f.submitted && category.invalid" class="invalid-feedback">
+          <div *ngIf="category.errors.required">{{'Field is Required' | translate}}</div>
+        </div>
+        
+        <ion-item class="cs-input mt16" [ngClass]="{'error':f.submitted && remark?.invalid}">
+          <ion-label floating>{{'Remark' | translate}} *</ion-label>
+          <ion-textarea type="text" name="remark" #remark="ngModel" [(ngModel)]="data.remark" required style="height: 80px;"></ion-textarea>
+        </ion-item>
+        <div *ngIf="f.submitted && remark.invalid" class="invalid-feedback">
+          <div *ngIf="remark.errors.required">{{'Field is Required' | translate}}</div>
+        </div>
+      </ion-list>
+      
+
+      <div class="uploade-image">
+        <ul>
+          <li *ngFor="let row of selImages; let i=index">
+            <img src="{{row.id ? uploadUrl+row.image : row.image}}">
+            <span class="cancel-icon">
+              <i class="material-icons crose-icon" (click)="delete_img(i)">clear</i>
+            </span>
+          </li>
+          <li class="add-bg-1" (click)="onUploadChange()">
+            <i class="material-icons">add</i>
+            <p >{{'Upload Images' | translate}}</p>
+          </li>
+        </ul>
+      </div>
+
+
+      <!-- <div class="uploade-image">
+        <ul>
+          <li *ngFor='let image of support_image;index as i' [ngClass]="{'active': siteform.profile_selected == row.id}">
+            <img src="{{image}}">
+            <span class="cancel-icon">
+              <i class="material-icons crose-icon" (click)="delete_img(i)">clear</i>
+            </span>
+          </li>
+          <li class="add-bg-1" (click)="onUploadChange()">
+            <i class="material-icons">add</i>
+            <p >{{'Upload Images' | translate}}</p>
+          </li>
+        </ul>
+      </div> -->
+
+      <button ion-button class="cs-btn mb0" >{{ 'Save' | translate }}</button>
+    </div>
+  </form>
+  
+ 
+
+  <div class="padding16">
+    <!-- (click)="goOnSiteDetail(row.id)" -->
+    <div class="cs-list" *ngFor="let row of Support_hist; let i = index;">
+      <div class="top-block">
+        <p>{{row.date_created |  date:'d MMMM y'}}</p>
+        <!-- <ion-icon name="arrow-forward" color="secondary"  ios="ios-arrow-forward"></ion-icon> -->
+      </div>
+      <div class="middle-block">
+        <div class="three-block pb0">
+          <p>{{'Category' | translate}} : <strong>{{row.category | titlecase}}</strong></p>
+          <p>{{'Status' | translate}} : <strong class="{{row.status}}">{{row.status | titlecase}}</strong></p>
+        </div>
+        <div class="three-block pb0">
+          <p>{{'Description' | translate}} : <strong>{{row.remark |titlecase}}</strong></p>
+        </div>
+
+        <div class="three-block pb0" *ngIf='row.status=="Done"'>
+          <p>{{'Resolving Remark' | translate}} : <strong>{{row.status_remark |titlecase}}</strong></p>
+        </div>
+      </div>
+    </div>
+<!--     
+    <div class="image-detail"  *ngIf="!data.length">
+      <img src="assets/imgs/no_found.svg">
+    </div> -->
+  </div>
+  
+</ion-content>

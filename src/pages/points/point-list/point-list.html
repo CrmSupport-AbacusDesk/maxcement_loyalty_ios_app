@@ -1,0 +1,72 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>{{'My Points' | translate}}</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding style="background: #f5f5f5">
+  
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="{{'Pull to refresh' | translate}}" refreshingSpinner="circles" refreshingText="{{'Refreshing...' | translate}}">
+    </ion-refresher-content>
+  </ion-refresher>
+  
+  <div class="bal-column pb30">
+    <p>{{'Balance Points' | translate}}</p>
+    <h2>{{total_balance_point}} <span>Pts</span></h2>
+    <span>{{'Last updated' | translate}} {{ (karigar_point.balance_update!='0000-00-00') ? (karigar_point.balance_update | date:'d MMMM y') : ('') }}</span>
+  </div>
+  
+  <div class="ion-tab-btn" style="top: -18px;">
+    <ion-segment [(ngModel)]="history">
+      
+      <ion-segment-button value="scanned">
+        <span class="black capitalize">{{ 'Purchase Points' | translate }}</span>
+      </ion-segment-button>
+      
+      <ion-segment-button value="referral">
+        <span class="black capitalize">{{ 'Other Points' | translate }}</span>
+      </ion-segment-button>
+    </ion-segment>
+  </div>
+  
+  <div [ngSwitch]="history" class="pl16 pr16 ">
+    <ng-container  *ngSwitchCase="'scanned'">
+      <div class="point-block" *ngFor="let list of coupon_list; let i=index" >
+        <div class="point-content">
+          <p>{{'Purchase Points' | translate}}</p>
+          <span>{{list.summary}}</span>
+          <span>({{list.date_created | date:'d MMMM y'}})</span>
+        </div>
+        <div class="pts">{{list.points}} PT</div>
+      </div>
+      <div class="no-history" *ngIf="coupon_list.length == 0">
+        <img src="assets/imgs/history.png">
+        <p>{{'No History' | translate}}</p>
+      </div>
+    </ng-container>
+    
+
+
+    <ng-container  *ngSwitchCase="'referral'">
+      <div class="point-block" *ngFor="let row of ref_kar;">
+        <div class="point-content">
+          <p>{{row.summary | translate}}</p>
+          <span>{{row.date_refered | date:'d MMMM y'}}</span>
+        </div>
+        <div class="pts">{{row.coupon_value}} PT</div>
+      </div>
+      <div class="no-history" *ngIf="ref_kar.length == 0">
+        <img src="assets/imgs/history.png">
+        <p>{{'No History' | translate}}</p>
+      </div>
+    </ng-container>
+
+  </div>
+  
+  
+  <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)" *ngIf="flag!=1">
+    <ion-infinite-scroll-content loadingSpinner="bubbles" loadingText="{{'Loading more data...' | translate}}">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ion-content>

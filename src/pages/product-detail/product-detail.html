@@ -1,0 +1,36 @@
+<ion-header>
+    <ion-navbar>
+        <!-- For hindi -->
+        <!-- {{lang != 'en' ? prod_cat.hin_category_name : prod_cat.category_name |titlecase}} -->
+        <ion-title>{{'Products' | translate}}</ion-title>
+    </ion-navbar>
+    <ion-toolbar color="secondary" *ngIf="prod_list.length > 5 || filter.search != '' ">
+        <div class="pl16">
+            <ion-searchbar type='text' placeholder="{{'Search' | translate}}" name='search' #search="ngModel" [(ngModel)]="filter.search" (ngModelChange)="getProductList(cat_id,filter.search)"></ion-searchbar>
+        </div>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+    <div class="padding16">    
+        <div class="our-product" (click)="goOnProductSubDetailPage(list.id)" *ngFor="let list of prod_list;let i=index">
+            <div class="product-thumbnail">
+                <img src={{upload_url+list.image_name}}>
+                <img src="assets/imgs/default-image.png" *ngIf="list.image_name == '' ">
+            </div>
+            <div class="product-data">
+                <p>{{list.product_name |titlecase}}</p>
+                <i class="material-icons">navigate_next</i>
+            </div>
+        </div>
+    </div>
+    
+    <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)"  *ngIf="flag!=1">
+        <ion-infinite-scroll-content
+        loadingSpinner="bubbles"
+        loadingText="{{'Loading more data...' | translate}}">
+    </ion-infinite-scroll-content>
+</ion-infinite-scroll>
+
+
+</ion-content>

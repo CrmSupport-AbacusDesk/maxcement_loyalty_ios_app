@@ -1,0 +1,18 @@
+page-purchase-detail {
+
+    .Pending{background:#ff9800 !important; color: #fff !important; font-size: 14px !important; text-align: center;}
+    .Reject, .Reject{background: #ff0000 !important; color: #fff !important; font-size: 14px !important; text-align: center;}
+    .Approved, .Verified{background:#43903a !important; color: #fff !important; font-size: 14px !important; text-align: center;}
+
+    p.text-status {
+        font-size: 12px;
+        margin-bottom: 16px !important;
+    }
+    .white-bg{
+        background: #fff !important;
+    }
+
+    .font18{
+        font-size: 18px;
+    }
+}

@@ -1,0 +1,74 @@
+
+<ion-header>
+  <ion-navbar>
+    <ion-title>{{'Site Checkin' | translate}}</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <div class="main-field padding16">
+    <!-- <h3>{{ 'Basic information' | translate}} </h3> -->
+    <div class="cs-form mb10">
+      <form name="siteform"   (ngSubmit)="f.form.valid && submit() " #f="ngForm" >
+        <div class="sprate-block">
+          <ion-list>
+            <!-- <ion-item class="cs-select" [ngClass]="{'error':f.submitted && site_location_id?.invalid}">
+              <ion-label>{{'Site Address' | translate}}*</ion-label>
+              <ionic-selectable
+              item-content 
+              [(ngModel)]="siteform.site_location_id" 
+              #site_location_id="ngModel"
+              [items]="locations"
+              name="site_location_id"
+              itemValueField="address"
+              itemTextField="address"
+              [hasVirtualScroll]="true"
+              (onChange)="getLocation()"
+              [canSearch]="true" required>
+            </ionic-selectable>
+          </ion-item> -->
+          
+          <!-- <div *ngIf="f.submitted && site_location_id.invalid" class="invalid-feedback">
+            <div *ngIf="site_location_id.errors.required">{{'Field is Required' | translate}}</div>
+          </div> -->
+          
+          <ion-item class="cs-input h100" [ngClass]="{'error':f.submitted && remark?.invalid}">
+            <ion-label floating>{{'Remark' | translate}} *</ion-label>
+            <ion-textarea name="remark" [(ngModel)] = "siteform.remark" #remark="ngModel"  required></ion-textarea>
+          </ion-item>
+          <div *ngIf="f.submitted && remark.invalid" class="invalid-feedback">
+            <div *ngIf="remark.errors.required">{{'Field is Required' | translate}}</div>
+          </div>
+          
+        </ion-list>
+        
+        
+        <div class="uploade-image">
+          <ul>
+            <li *ngFor="let row of selImages; let i=index" [ngClass]="{'active': siteform.profile_selected == row.id}">
+              <img src="{{row.id ? uploadUrl+row.image : row.image}}">
+              <span class="cancel-icon">
+                <i class="material-icons crose-icon" (click)="showConfirm(i,row.id)">clear</i>
+              </span>
+            </li>
+            <li class="add-bg-1" (click)="takeDocPhoto()">
+              <i class="material-icons">add</i>
+              <p >{{'Take a Picture' | translate}}</p>
+            </li>
+          </ul>
+        </div>
+        
+        
+        
+      </div>
+      <div class="pt16 pb16">
+        <button type="submit" style="text-transform: capitalize;"   ion-button full [disabled]="saveFlag == true">{{ 'Checkin' | translate }}</button>
+        
+      </div>
+    </form>
+    
+    
+    
+  </div>
+</div>
+</ion-content>

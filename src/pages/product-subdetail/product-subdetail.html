@@ -1,0 +1,63 @@
+<ion-header>
+    <ion-navbar>
+        <ion-title>{{'Product Detail' | translate}}</ion-title>
+        <!-- <h1>{{prod_detail.product_name | titlecase}}</h1> -->
+        <!-- <p *ngIf="prod_detail.desc!=''"><strong>{{'Description' | translate}}</strong> : {{prod_detail.desc}}</p> -->
+        
+    </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+    
+    <div class="slide-image">
+        <!-- zoom="true" -->
+        <!-- <ion-slides class="cs-slide" *ngIf="prod_detail.image && prod_detail.image.length>1" [initialSlide]="0" pager autoplay="1000" speed="1000" loop="true">
+            <ion-slide *ngFor="let row of prod_detail.image; let i=index" (click)="viewDetail(row.image_name)">
+                <div class="swiper-zoom-container">
+                    <h2>{{upload_url+row.image_name}}</h2>
+                    <img [src]="upload_url+row.image_name">
+                </div>
+            </ion-slide>
+        </ion-slides> -->
+        <div class="swiper-zoom-container">
+            <img [src]="upload_url+prod_detail.image_name" (click)="viewDetail(prod_detail.image_name)">
+        </div>
+
+        <div class="swiper-zoom-container"  *ngIf="prod_detail.image && prod_detail.image.length== []">
+            <img src="assets/imgs/default-image.png" class="h90">
+        </div>
+    </div>
+    
+    <!-- <div class="fix">
+        <div class="pr-img">
+            <ion-slides class="cs-slide"  pager autoplay="1000" speed="1000" loop="true" *ngIf="prod_detail.image && prod_detail.image.length" >
+                <ion-slide *ngFor="let row of prod_detail.image; let i=index" (click)="viewDetail(row.image_name)">
+                    <img [src]="upload_url+row.image_name">
+                </ion-slide>
+            </ion-slides>
+        </div>
+    </div> -->
+    
+    <div class="item-table">
+        <table>
+            <tr>
+                <td class="w85">{{'Product Name' | translate}}</td>
+                <th>{{prod_detail.product_name | titlecase}}</th>
+            </tr>
+            <tr>
+                <td class="w85">{{'Short Name' | translate}}</td>
+                <th>{{prod_detail.short_name | titlecase}}</th>
+            </tr>
+            <tr *ngIf="prod_detail.product_code!=''">
+                <td class="w85">{{'Product Code' | translate}}</td>
+                <th>{{prod_detail.product_code ? prod_detail.product_code : 'N/A' }}</th>
+            </tr>
+            
+            <tr *ngIf="prod_detail.desc!=''">
+                <td class="w85">{{'Description' | translate}}</td>
+                <th>{{prod_detail.desc ? prod_detail.desc : 'N/A'}}</th>
+            </tr>
+        </table>
+    </div>
+   
+</ion-content>

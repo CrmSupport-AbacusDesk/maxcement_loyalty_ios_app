@@ -1,0 +1,165 @@
+page-user-add {
+    .csm-form
+	{
+		ion-list
+		{
+			ion-item
+			{
+				min-height: inherit;
+				padding-left: 0px;
+				height: 40px;
+				box-shadow: none !important;
+				// border-bottom: 0px !important;
+				
+				.item-inner
+				{
+					box-shadow: none !important;
+					padding-right: 0px !important;
+					border: solid 1px #ccc !important;
+					background: #fff;
+					
+					.input-wrapper
+					{
+						background: transparent;
+						
+						ion-label
+						{
+							margin: 0px;
+							padding: 0px;
+							position: absolute;
+							padding-left: 16px;
+							margin-top: -15px;
+							font-size: 14px;
+						}
+						
+						ion-input
+						{
+							background: transparent;
+							
+							input
+							{
+								background: transparent;
+								width: 100%;
+								margin: 0px;
+								margin-top: 11px;
+								padding-left: 13px;
+							}
+						}
+					}
+				}
+				
+				&.input-has-value,
+				&.item-input-has-focus
+				{
+					.item-inner
+					{
+						
+						.input-wrapper
+						{
+							
+							ion-label
+							{
+								font-size: 12px;
+								margin-top: 0px;
+							}
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	
+	.outer-doc{
+		padding: 10px 10px 0px 10px;
+		background: #fff;
+	}
+	
+	.upload-document
+	{
+		background: #ffdd19;
+		min-height: 150px;
+		border: solid 1px #fad13a;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		overflow: hidden;
+		
+		p
+		{
+			font-size: 12px;
+			text-align: center;
+			line-height: 16px;
+			color: #000000;
+			
+			i
+			{
+				font-size: 24px;
+			}
+		}
+		
+		&.error
+		{
+			border-color: #ff0000;
+			
+			p
+			{
+				color: #ff0000;
+			}
+		}
+	}
+	
+	.profile-circle {
+		margin: 0 auto;
+		width: 65px;
+		height: 65px;
+		background: #ffdd19;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		border-radius: 100%;
+		border: 2px solid #fff;
+		box-shadow: 0px 3px 6px 0px rgba(0, 0, 0, 0.2);
+		margin-bottom: 6px;
+		color: #000;
+
+
+		
+		img{
+			height: 65px;
+			border-radius: 100%;
+			width: 100%;
+		}
+	}
+	
+	ion-list{
+		ion-item{
+			font-size: 14px;
+		}
+	}
+	
+	
+	.error ion-label{
+		color: #ff0000 !important;
+	}
+	
+	.form-heading {
+		margin-bottom: 0px;
+		border-top: 0px;
+		font-size: 14px;
+		color: #000000;
+		border-bottom: 2px solid #d9ad0c;
+		margin-top: 16px;
+		background: #ffffff !important;
+		min-height: 20px !important;
+		line-height: 20px;
+		font-weight: 600;
+	}
+
+	.invalid-feedback{
+		text-align: right;
+		color: #ff0000;
+		font-size: 12px;
+		background-color: #fff;
+	}
+}

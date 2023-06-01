@@ -1,0 +1,36 @@
+<!--
+  Generated template for the PotentialUpdatePage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+  <ion-navbar>
+    <ion-title>{{'Potential Update' | translate}}</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding >
+  <div class="main-field padding16">
+    <!-- <h3>{{ 'Basic information' | translate}} </h3> -->
+    <div class="cs-form " >
+      <form name="data"   (ngSubmit)="f.form.valid && update_potential() " #f="ngForm" >
+        <div class="sprate-block">
+          <ion-list>
+
+              <ion-item class="cs-input" [ngClass]="{'error':f.submitted && pc_potential?.invalid}">
+                <ion-label floating>{{'Potential oF Bags' | translate}}*</ion-label>
+                <ion-input type="text"  name="pc_potential"  #pc_potential ="ngModel" [(ngModel)]="data.pc_potential" required></ion-input>
+              </ion-item>
+              <div *ngIf="f.submitted && pc_potential.invalid" class="invalid-feedback">
+                <div *ngIf="pc_potential.errors.required">{{'Field is Required' | translate}}</div>
+            </div>
+          </ion-list>
+        </div>
+        <div class="pt16 pb16">
+          <button type="submit"  ion-button full [disabled]="saveFlag == true">{{ 'Update' | translate }}</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</ion-content>

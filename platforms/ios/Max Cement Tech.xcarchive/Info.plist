@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>ApplicationProperties</key>
+	<dict>
+		<key>ApplicationPath</key>
+		<string>Applications/Max Cement Tech.app</string>
+		<key>Architectures</key>
+		<array>
+			<string>arm64</string>
+		</array>
+		<key>CFBundleIdentifier</key>
+		<string>com.maxCement.app</string>
+		<key>CFBundleShortVersionString</key>
+		<string>0.0.7</string>
+		<key>CFBundleVersion</key>
+		<string>0.0.7</string>
+		<key>SigningIdentity</key>
+		<string>Apple Development: Vikas  Behl (7GYYB5TU7Z)</string>
+		<key>Team</key>
+		<string>6C87A2477S</string>
+	</dict>
+	<key>ArchiveVersion</key>
+	<integer>2</integer>
+	<key>CreationDate</key>
+	<date>2023-04-16T19:11:52Z</date>
+	<key>Name</key>
+	<string>Max Cement Tech</string>
+	<key>SchemeName</key>
+	<string>Max Cement Tech</string>
+</dict>
+</plist>

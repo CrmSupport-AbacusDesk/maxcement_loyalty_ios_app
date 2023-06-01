@@ -1,0 +1,73 @@
+<!--
+  Generated template for the SiteVisitListPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+  <ion-navbar>
+    <ion-title>{{'Site Visit List' | translate}}</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content >
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="{{'Pull to refresh' | translate}}" refreshingSpinner="circles" refreshingText="{{'Refreshing...' | translate}}">
+    </ion-refresher-content>
+  </ion-refresher>
+  
+  <div class="padding16">
+    <div class="cs-list" *ngFor="let row of data; let i = index;" (click)="goToDetail(row.id)">
+      <div class="top-block">
+        <p>{{row.visit_date_created |  date:'d MMMM y'}}</p>
+        <ion-icon name="arrow-forward" color="secondary"  ios="ios-arrow-forward"></ion-icon>
+      </div>
+      <div class="middle-block">
+        <div class="three-block pb0">
+          <p>{{'Created By' | translate}} : <strong>{{row.created_name | titlecase}}</strong></p>
+        </div>
+        <div class="three-block pb0">
+          <p>{{'Owner Detail' | translate}} : <strong>{{row.site_owner_name |titlecase}} - {{row.site_owner_contact}}</strong></p>
+        </div>
+        <div class="three-block">
+          <p>{{'Visited Person' | translate}} : <strong>{{row.site_created_name |titlecase}}</strong></p>
+        </div>
+        <div class="three-block">
+          <p>{{'Visited Date & Time' | translate}} : <strong>{{row.visit_date_created | date:'d MMMM y, h:mm a'}}</strong></p>
+        </div>
+        <div class="three-block">
+          <p>{{'State' | translate}} : <strong>{{row.state}}</strong></p>
+          <p>{{'District' | translate}} : <strong>{{row.district}}</strong> </p>
+        </div>
+        <div class="three-block">
+          <p>{{'City' | translate}} : <strong>{{row.city}}</strong></p>
+          <p>{{'Sale Zone' | translate}} : <strong>{{row.sales_zone}}</strong> </p>
+        </div>
+        <div class="three-block">
+          <p>{{'Address' | translate}} : <strong>{{row.address | titlecase}}</strong></p>
+        </div>
+      </div>
+      <div class="top-block footer-block">
+        <p>{{'Visit Remark' | translate}}: {{row.remark | titlecase}}</p>
+      </div>
+    </div>
+    
+    <div class="image-detail"  *ngIf="!data.length">
+      <img src="assets/imgs/no_found.svg">
+    </div>
+  </div>
+  
+  <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)"  *ngIf="flag!=1">
+    <ion-infinite-scroll-content
+    loadingSpinner="bubbles"
+    loadingText="{{'Loading more data...' | translate}}">
+  </ion-infinite-scroll-content>
+</ion-infinite-scroll>
+
+</ion-content>
+
+<!-- <ion-footer *ngIf="!data.length">
+  <ion-toolbar>
+      <button ion-button color="secondary" style="text-transform: capitalize;" (click)="goOnSiteVisit()" full round>{{'Checkin Site' | translate}}</button>
+  </ion-toolbar>
+</ion-footer> -->

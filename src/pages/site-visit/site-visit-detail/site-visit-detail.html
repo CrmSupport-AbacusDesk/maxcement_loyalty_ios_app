@@ -1,0 +1,100 @@
+<!--
+  Generated template for the SiteVisitDetailPage page.
+  
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+  <ion-navbar>
+    <ion-title>{{'Site Visit Detail' | translate}}</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="{{'Pull to refresh' | translate}}" refreshingSpinner="circles" refreshingText="{{'Refreshing...' | translate}}">
+    </ion-refresher-content>
+  </ion-refresher>
+  <div class="cs-list flat">
+    <div class="top-block">
+      <p>{{'Visit Date' | translate}} : {{getData.visit_date_created |  date:'d MMMM y'}}</p>
+    </div>
+    <div class="middle-block">
+      <div class="three-block">
+        <p>{{'Created By' | translate}} : <strong>{{getData.created_name | titlecase}}</strong></p>
+      </div>
+      <div class="three-block ">
+        <p>{{'Owner Detail' | translate}} : <strong>{{getData.site_owner_name}} - {{getData.site_owner_contact}}</strong></p>
+      </div>
+      <div class="three-block">
+        <p>{{'Visited Person' | translate}} : <strong>{{getData.site_created_name |titlecase}}</strong></p>
+      </div>
+      <div class="three-block">
+        <p>{{'Visited Date & Time' | translate}} : <strong>{{getData.visit_date_created | date:'d MMMM y, h:mm a'}}</strong></p>
+      </div>
+
+      <div class="three-block" *ngIf="userType == '1' ">
+        <p>{{'Channel Partner Details' | translate}} : <strong>{{getData.dealer_name | titlecase}} - {{getData.dealer_mobile}}</strong></p>
+      </div>
+      <div class="three-block" *ngIf="userType == '2' ">
+        <p>{{'PC Details' | translate}} : <strong>{{getData.pc_name | titlecase}} - {{getData.pc_contact}}</strong></p>
+      </div>
+      <div class="three-block">
+        <p>{{'State' | translate}} : <strong>{{getData.state}}</strong></p>
+        <p>{{'District' | translate}} : <strong>{{getData.district}}</strong> </p>
+      </div>
+      <div class="three-block">
+        <p>{{'City' | translate}} : <strong>{{getData.city}}</strong></p>
+        <p>{{'Sale Zone' | translate}} : <strong>{{getData.sales_zone}}</strong> </p>
+      </div>
+      <div class="three-block" *ngIf="getData.project_size !=''">
+        <p>{{'Project Size (Cons. Area) Sq. Ft' | translate}} : <strong>{{getData.project_size}}</strong></p>
+      </div>
+      <div class="three-block">
+        <p *ngIf="getData.construction_type !=''">{{'Construction Type' | translate}} : <strong>{{getData.construction_type}}</strong> </p>
+        
+        <p *ngIf="getData.stage !=''">{{'Construction Stage' | translate}} : <strong>{{getData.stage}}</strong></p>
+      </div>
+      <div class="three-block">
+        <p *ngIf="getData.site_type !=''">{{'Site Type' | translate}} : <strong>{{getData.site_type}}</strong> </p>
+        <p>{{'Brand Being Used' | translate}} : <strong>{{getData.brand}}</strong></p>
+      </div>
+      <div class="three-block">
+        <p>{{'Site Potential(Bags)' | translate}} : <strong>{{getData.site_potential}}</strong> </p>
+      </div>
+      <div class="three-block">
+        <p>{{'Site Landmark' | translate}} : <strong>{{getData.landmark | titlecase}}</strong></p>
+      </div>
+      <div class="three-block">
+        <p>{{'Address' | translate}} : <strong>{{getData.address | titlecase}}</strong></p>
+      </div>
+    </div>
+    <div class="top-block footer-block" *ngIf="getData.remark">
+      <p>{{'Remark' | translate}}: {{getData.remark}}</p>
+    </div>
+    <div class="top-block footer-block" *ngIf="getData.visit_remark">
+      <p>{{'Visit Remark' | translate}}: {{getData.visit_remark}}</p>
+    </div>
+  </div>
+  
+  
+  <ng-container *ngIf="selImages.length">
+    <div class="item-table">
+      <h2>{{'Site Images' | translate}}</h2>
+      <div class="uploade-image">
+        <ul>
+          <li *ngFor="let row of selImages; let i=index" (click)="viewProfiePic(row.id, row.image_name, 'normal', row.visit_image_address,  row.date_created)">
+            <img src="{{uploadUrl+row.image_name}}">
+            
+            <span class="date_time">{{row.visit_image_address}} {{row.date_created |  date:'d MMMM y, h:mm a'}}</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </ng-container>
+<!-- 
+  <ng-container *ngIf="getData.site_lat">
+    <iframe  #map id="map" [src]="url" width="100%" height="100%" frameborder="0" style="border:0"></iframe>
+
+  </ng-container> -->
+</ion-content>

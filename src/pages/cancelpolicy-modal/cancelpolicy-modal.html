@@ -1,0 +1,174 @@
+<ion-header>
+    <ion-navbar>
+        <ion-title>cancelpolicy-modal</ion-title>
+    </ion-navbar>
+</ion-header>
+
+<ion-content padding class="popup-modal">
+    
+    <div class="modal-center">
+        <div class="modal-content in-modal">
+            <form #f="ngForm">
+                <h1>{{'Max Cement' | translate}} </h1>
+                <p>{{ 'Are you sure to redeem your' | translate }} {{redeemPoint}} {{'Points' | translate}}? </p>
+                <div class="number-content">
+                    <p>{{'Enter your 6 digit number that sent to' | translate}} <span class="blue-color lineh24">+91 {{data.mobile_no}}</span>
+                    </p>
+                </div>
+                <div class="input-section">
+                    <div class="input-adjust m0">
+                        <input class="pl16 radius-none" type="tel" name="otp" placeholder="{{'Enter OTP' | translate}}" #otp="ngModel" [(ngModel)]="data.otp" (ngModelChange)="otpvalidation()" required>
+                        <div class="otp-error" *ngIf="!otp_value && otp?.touched">
+                            <p>{{'Wrong OTP value' | translate}}</p>
+                        </div>
+                    </div>
+                    <div class="resend">
+                        <a (click)="resendOtp()">{{'Resend' | translate}}</a>
+                    </div>
+                    <ng-container *ngIf="redeemType == 'Cash'">
+
+                        <div class="input-adjust m0" >
+                        <h1>   {{'Bank Information' | translate}} </h1>
+
+                            <input class="pl16 radius-none mb16" name="account_holder_name"  [(ngModel)]="data.account_holder_name" type="text" placeholder="{{'Account Holder Name' | translate}}"  required >
+                            <input class="pl16 radius-none mb16" name="bank_name"  [(ngModel)]="data.bank_name" type="text" placeholder="{{'Bank Name' | translate}}"  required >
+                            <input class="pl16 radius-none mb16" name="account_no" #account_no="ngModel" [(ngModel)]="data.account_no" type="number" placeholder="{{'Account Number' | translate}}"  required >
+                            <input class="pl16 radius-none mb16" pattern="^[A-Z]{4}0[A-Z0-9]{6}$" name="ifsc_code" [(ngModel)]="data.ifsc_code" type="text" placeholder="{{ 'IFSC Code' | translate}}"  minlength="11" maxlength="11" >
+                        </div>
+                            <!-- <input class="pl16 radius-none" name="account_holder_name" #account_holder_name="ngModel" [(ngModel)]="data.account_holder_name" type="text" placeholder="{{ 'Account Holder Name' | translate}}" require readonly> -->
+
+<!-- <ng-container *ngIf="!data.bank_name && !data.account_holder_name && !data.account_no && !data.ifsc_code">
+
+                            <h1>   {{'Bank Information' | translate}} </h1>
+                            <div class="input-section">
+               
+                                <div class="cs-form">
+                                  <ion-list>
+                                    <ion-item class="cs-input mb0 mt10" >
+                                      <ion-label floating>{{'Account Holder Name' | translate}}</ion-label>
+                                      <ion-input type="text"  name="account_holder_name"  ng-pattern-restrict #account_holder_name ="ngModel" [(ngModel)]="data.account_holder_name "></ion-input>
+                                    </ion-item>
+                                    
+                                    <ion-item class="cs-input mb0 mt10" >
+                                      <ion-label floating>{{'Bank Name' | translate}}</ion-label>
+                                      <ion-input type="text"  name="bank_name " pattern="[\x00-\x7F]+" ng-pattern-restrict #bank_name ="ngModel" [(ngModel)]="data.bank_name "></ion-input>
+                                    </ion-item>
+                                    
+                                    
+                                    <ion-item class="cs-input mb0 mt10" >
+                                      <ion-label floating>{{'Account No.' | translate}}</ion-label>
+                                      <ion-input type="tel" name="account_no " #account_no ="ngModel" [(ngModel)]="data.account_no" minlength="9" maxlength="18"></ion-input>
+                                    </ion-item>
+                                    
+                                    <ion-item class="cs-input mb0 mt10">
+                                      <ion-label floating>{{'IFSC Code' | translate}}</ion-label>
+                                      <ion-input type="text"  name="ifsc_code " #ifsc_code ="ngModel" [(ngModel)]="data.ifsc_code"  pattern="^[A-z]{4}[0][A-z0-9]{6}$"></ion-input>
+                                    </ion-item>	
+                                    <p class="error"  *ngIf="ifsc_code.errors?.pattern">{{'Invaild IFSC Code' | translate}}</p>
+
+                                   
+                                  </ion-list>
+                                </div>
+                              </div>
+
+</ng-container> -->
+ 
+                              <div class="outer-doc" >
+                                <div class="upload-document mt15" (click)="onUploadImageChange()" >
+                                    <p *ngIf="data.cheque_image==''"><i class="material-icons">add_circle</i><br>{{'Upload Passbook/Canceled Cheque Image' | translate}}</p>
+                                    <img src="{{uploadurl+data.cheque_image}}" *ngIf="data.cheque_image != ''">
+
+                                </div>
+                            </div>
+                        <!-- <ng-container *ngIf="!data.account_holder_name || !data.account_no || !data.bank_name || !data.ifsc_code">
+                            <div class="adhar alert-card">
+                                <table>
+                                    <tr>
+                                        <td>
+                                            <p>{{ 'Bank details are missing Please update your bank details' | translate}}</p>
+                                            <a round ion-button small (click)="goRegestrationsPage()">{{'Update detail' | translate}}</a>
+                                        </td>
+                                    </tr>
+                                    
+                                </table>
+                            </div>
+                        </ng-container> -->
+                        <!-- <div class="document_req" >
+                            <a (click)="goRegestrationsPage()"> <span class="document_req" style="color:blue;text-decoration: underline;">{{ 'Update Profile' | translate}}</span>
+                            </a>
+                        </div> -->
+                    </ng-container>
+                </div>
+                
+             
+                
+                <!-- <ion-list radio-group class="payment-option" name="payment_type" [(ngModel)]="data.payment_type" #user_type="ngModel" payment_type>
+                    <ion-list-header>
+                        INR Received Type
+                    </ion-list-header>
+                    
+                    <ion-item>
+                        <ion-label><img src="assets/imgs/paytm.png">Paytm</ion-label>
+                        <ion-radio value="Paytm"></ion-radio>
+                    </ion-item>
+                    
+                    <ion-item>
+                        <ion-label><img src="assets/imgs/phonepay.png">PhonePe</ion-label>
+                        <ion-radio value="PhonePe"></ion-radio>
+                    </ion-item>
+                    
+                    <ion-item>
+                        <ion-label><img src="assets/imgs/googlepay.png">Google Pay</ion-label>
+                        <ion-radio value="Google Pay"></ion-radio>
+                    </ion-item>
+                </ion-list> --> 
+                <ng-container *ngIf="redeemType == 'gift'">
+                    <div class="check-bx">
+                        <ion-item>
+                            <ion-checkbox color="secondary" checked="true" name="check1" #check1="ngModel" [(ngModel)]="data.check1" (click)="myNumber()">
+                            </ion-checkbox>
+                        </ion-item>
+                        <p>{{'Same as Permanent Address' | translate}}</p>
+                    </div>
+                    
+                    <div class="input-section">
+                        <div class="input-adjust m0">
+                            <textarea class="pl16 radius-none" type="text" name="shipping_address" placeholder="Enter Shipping Address" #shipping_address="ngModel" [(ngModel)]="data.shipping_address" required></textarea>
+                        </div>
+                    </div>
+
+
+                    <ng-container *ngIf="!data.document_image || !data.document_no || !data.document_type" >
+                        <div class="adhar alert-card">
+                            <table>
+                                <tr>
+                                    <td>
+                                        <p>{{ 'Documents are missing Please update your documents' | translate}}</p>
+                                        <a round ion-button small (click)="goRegestrationsPage()">{{'Update detail' | translate}}</a>
+                                    </td>
+                                </tr>
+                                
+                            </table>
+                        </div>
+                    </ng-container>
+                </ng-container>
+                
+                
+               
+             
+                <div class="check-bx">
+                    <ion-item>
+                        <!-- <ion-checkbox color="secondary" checked="true" name="check" #check="ngModel" [(ngModel)]="data.check" required></ion-checkbox> -->
+                        <ion-checkbox color="secondary" checked="true" name="check" #check="ngModel" [(ngModel)]="data.check" >
+                        </ion-checkbox>
+                    </ion-item>
+                    <p>{{'I have read' | translate}} <a (click)="goOnCancelationPolicy()">{{'Cancellation Policy' | translate}}</a></p>
+                </div>
+                <div class="footer-btn">
+                    <a class="outline-btn" (click)="dismiss()">{{'No' | translate}}</a>
+                    <button class="fill-btn" (click)="submit()">{{'Yes' | translate}}</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</ion-content>

@@ -1,0 +1,53 @@
+
+<ion-header>
+  <ion-navbar>
+    <ion-title>{{'Change Status' | translate}}</ion-title>
+
+    <ion-buttons end>
+      <button ion-button icon-only (click)="dismiss()">
+        <ion-icon color="territory" name="close"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <div class="main-field padding16">
+    <!-- <h3>{{ 'Basic information' | translate}} </h3> -->
+    <div class="cs-form mb10">
+      <form name="statusform"   (ngSubmit)="f.form.valid && submit() " #f="ngForm" >
+        <div class="sprate-block">
+          <ion-list>
+            <!-- *ngIf="userType == '2'" -->
+            <ion-item class="cs-select" [ngClass]="{'error':f.submitted && dealer_status?.invalid}" >
+              <ion-label>{{'Status' | translate}}*</ion-label>
+              <ion-select [(ngModel)]="statusform.dealer_status" name="dealer_status" #dealer_status="ngModel" required>
+                <!-- <ion-option  value="Pending">Pending</ion-option> -->
+                <ion-option  value="Verified">Verified</ion-option>
+                <ion-option  value="Reject">Reject</ion-option>
+              </ion-select>
+            </ion-item>
+
+            <!-- <ion-item class="cs-select" [ngClass]="{'error':f.submitted && company_status?.invalid}" *ngIf="userType == '3'">
+              <ion-label>{{'Status' | translate}}*</ion-label>
+              <ion-select [(ngModel)]="statusform.company_status" name="company_status" #company_status="ngModel" required>
+                <ion-option  value="Verified">Verified</ion-option>
+                <ion-option  value="Reject">Reject</ion-option>
+              </ion-select>
+            </ion-item> -->
+            
+            <ng-container *ngIf="statusform.dealer_status == 'Reject'">
+              <ion-item class="cs-input h100" [ngClass]="{'error':f.submitted && reason?.invalid}">
+                <ion-label floating>{{'Reason' | translate}}</ion-label>
+                <ion-textarea name="reason" [(ngModel)] = "statusform.reason" #reason="ngModel" required></ion-textarea>
+              </ion-item>
+            </ng-container>
+          </ion-list>
+        </div>
+        <div class="pt16 pb16">
+          <button type="submit"  ion-button full [disabled]="saveFlag == true">{{ 'Update' | translate }}</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</ion-content>

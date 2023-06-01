@@ -1,0 +1,18 @@
+
+<ion-header>
+	<ion-navbar>
+		<ion-title>{{'Cancellation Policy' | translate}}</ion-title>
+		<div class="header-icons">
+			<button ion-button class="cs-hdr-icons mr16" (click)="closmodal()">
+				<i class="material-icons">clear</i>
+			</button>
+		</div>
+	</ion-navbar>
+  </ion-header>
+  
+  <ion-content padding>
+	  <div class="policy-text">
+		  <p [innerHTML]="get_cancellation_policy"></p>
+	  </div>
+  </ion-content>
+  

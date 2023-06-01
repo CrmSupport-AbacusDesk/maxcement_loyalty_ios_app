@@ -1,0 +1,419 @@
+<!--
+  Generated template for the UserDetailPage page.
+  
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header no-border>
+  <ion-navbar>
+    <ion-title *ngIf="regUser == 'Dealer'">{{'Channel Partner Detail' | translate}}</ion-title>
+    <ion-title *ngIf="regUser == 'Pc' && userFilter == '1'">{{'Max Bahubali (Contractor) Detail' | translate}}</ion-title>
+    <ion-title *ngIf="regUser == 'Pc' && userFilter == '4'">{{'Engineer Detail' | translate}}</ion-title>
+
+  </ion-navbar>
+  <ion-toolbar color="white" class="cs-toolbar">
+    <ion-segment [(ngModel)]="details">
+      <ion-segment-button value="basic" (click)="getKarigarDetail()">
+        <span class="black capitalize">{{ 'Basic Detail' | translate }}</span>
+      </ion-segment-button>
+      <ion-segment-button value="site" (click)="getSite()">
+        <span class="black capitalize">{{ 'Site Detail' | translate }}</span>
+      </ion-segment-button>
+      
+      <ion-segment-button value="purchase" (click)="getPurchase()">
+        <span class="black capitalize">{{ 'Purchase Order' | translate }}</span>
+      </ion-segment-button>
+      
+      <ion-segment-button value="offer" (click)="getofferList()">
+        <span class="black capitalize">{{ 'Offer' | translate }}</span>
+      </ion-segment-button>
+    </ion-segment>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  
+  
+  <ng-container [ngSwitch]="details">
+    <ng-container *ngSwitchCase="'basic'">
+
+      <div class="my-profile-container">
+        <div class="background-white hero"></div>
+        <div class="user-profile">
+            <div class="dp">
+                <div class="dp-hidden">
+                    <i class="material-icons" *ngIf="!karigar_detail.profile">person</i>
+                    <img src="{{uploadUrl+karigar_detail.profile}}" *ngIf="karigar_detail.profile" (click)="viewProfiePic()">
+                </div>
+                <a class="cmra-btn"><i class="material-icons" (click)="openeditprofile()">camera_alt</i></a>
+            </div>
+            <h2>{{karigar_detail.first_name |titlecase}}  {{karigar_detail.last_name |titlecase}}</h2>
+        </div>
+        
+        
+        <div class="padding16">
+            <div class="profile-card" >
+                <div class="text-box" *ngIf="karigar_detail.user_type == 1 || karigar_detail.user_type == 2">
+                    <p>{{ 'Status' | translate }} : <strong class="{{karigar_detail.status}}"> {{karigar_detail.status}}</strong></p>
+                </div>
+
+                <div class="text-box" *ngIf="karigar_detail.user_type == 1">
+                    <p>{{ 'KYC Status' | translate }} : <strong class="{{karigar_detail.kyc_status}}">{{karigar_detail.kyc_status}}</strong></p>
+                </div>
+            </div>
+            
+            <div class="profile-card">
+
+
+                <div class="text-box" *ngIf="karigar_detail.user_type == 2">
+                    <p>{{ 'Firm Name' | translate }}</p>
+                    <h6>{{karigar_detail.company_name |titlecase}} </h6>
+                </div>
+                
+                <div class="text-box" *ngIf="karigar_detail.user_type == 2 && karigar_detail.channel_type">
+                    <p>{{ 'Channel Type' | translate }}</p>
+                    <!-- <h6>{{karigar_detail.channel_type |titlecase}} </h6> -->
+                    <h6 *ngIf="karigar_detail.channel_type == 'Dealer'">({{karigar_detail.channel_type == 'Dealer'  ? 'Channel Partner' : '' |titlecase}}) </h6>
+                    <h6 *ngIf="karigar_detail.channel_type == 'Max Hero'">({{karigar_detail.channel_type == 'Max Hero'  ? 'Max Hero' : '' |titlecase}} )</h6>
+                    <h6 *ngIf="karigar_detail.channel_type == 'Non Dealer'">({{karigar_detail.channel_type == 'Non Dealer'  ? 'Non Channel Partner' : '' |titlecase}}) </h6>
+                    <h6 *ngIf="karigar_detail.channel_type == 'Non Sub Dealer'">({{karigar_detail.channel_type == 'Non Sub Dealer'  ? 'Non Sub Channel Partner' : '' |titlecase}}) </h6>
+                    <h6 *ngIf="karigar_detail.channel_type == 'Sub Dealer'">({{karigar_detail.channel_type == 'Sub Dealer'  ? 'Sub Channel Partner' : '' |titlecase}} )</h6>
+                </div>
+
+                <div class="text-box"  *ngIf="karigar_detail.user_type == 2 && karigar_detail.erp_code">
+                    <p>{{ 'ERP Code' | translate }}</p>
+                    <h6>{{karigar_detail.erp_code}}</h6>
+                </div>
+
+                <div class="text-box">
+                    <p>{{ 'Mobile No.' | translate }}</p>
+                    <h6>{{karigar_detail.mobile_no}}</h6>
+                </div>
+            
+                <div class="text-box" *ngIf="karigar_detail.user_type !='3' && karigar_detail.whatsapp_mobile_no">
+                    <p>{{ 'Whatsapp No.' | translate }}</p>
+                    <h6>{{karigar_detail.whatsapp_mobile_no ? karigar_detail.whatsapp_mobile_no : '----'}}</h6>
+                </div>
+
+                <div class="text-box" *ngIf="karigar_detail.email">
+                    <p>{{ 'Email ID' | translate }}</p>
+                    <h6>{{karigar_detail.email}}</h6>
+                </div>
+
+                <div class="text-box" *ngIf="(karigar_detail.user_type == 1 || karigar_detail.user_type == 2) && karigar_detail.dob !='0000-00-00'">
+                    <p>{{ 'Date of Birth' | translate}}</p>
+                    <h6>{{(karigar_detail.dob !='0000-00-00') ? (karigar_detail.dob| date:'d MMM,y'):('----')}}</h6>
+                </div>
+
+                <div class="text-box" *ngIf="karigar_detail.user_type =='2' && karigar_detail.dob !='0000-00-00'">
+                    <p>{{ 'Date of Anniversary' | translate}}</p>
+                    <h6>{{(karigar_detail.doa !='0000-00-00') ? (karigar_detail.doa| date:'d MMM,y'):('----')}}</h6>
+                </div>
+
+                 
+           
+                <div class="text-box"  *ngIf="karigar_detail.user_type =='2' || karigar_detail.user_type =='1'">
+                    <p>{{ 'Communication Address' | translate}}</p>
+                    <h6>{{karigar_detail.address |titlecase}} {{karigar_detail.state |titlecase}} {{karigar_detail.district |titlecase}} {{karigar_detail.city |titlecase}} {{karigar_detail.pincode }}</h6>
+                </div>
+
+                <div class="text-box"  *ngIf="karigar_detail.user_type =='4' || karigar_detail.user_type =='1'">
+                  <p>{{ 'Permanent Address' | translate}}</p>
+                  <h6>{{karigar_detail.permanent_address |titlecase}} {{karigar_detail.permanent_state |titlecase}} {{karigar_detail.parmanent_district |titlecase}} {{karigar_detail.permanent_city |titlecase}} {{karigar_detail.permanent_pincode }}</h6>
+              </div>
+
+                <div class="text-box" *ngIf="(karigar_detail.user_type =='2' || karigar_detail.user_type =='3') && karigar_detail.sales_zone">
+                    <p>{{ 'Sales Zone' | translate}}</p>
+                    <h6>{{karigar_detail.sales_zone ? karigar_detail.sales_zone:'----'}}</h6>
+                </div>
+
+                <div class="text-box" *ngIf="karigar_detail.user_type =='3'">
+                    <p>{{ 'Designation' | translate}}</p>
+                    <h6>{{karigar_detail.designation | titlecase}} / {{karigar_detail.manager_code}} </h6>
+                </div>
+
+                <div class="text-box" *ngIf="karigar_detail.user_type =='3'">
+                    <p>{{ 'Manager Name' | translate}}</p>
+                    <h6>{{karigar_detail.manager_name ? karigar_detail.manager_name:'----'}} / {{karigar_detail.manager_code}} </h6>
+                </div>
+
+                <div class="text-box" *ngIf="karigar_detail.status != 'Pending' && karigar_detail.user_type == 1">
+                    <p>{{ 'Status Update By' | translate}}</p>
+                    <h6>{{karigar_detail.status_updated_name}} </h6>
+                </div>
+
+                <div class="text-box" *ngIf="karigar_detail.pc_potential > 0 && karigar_detail.user_type == 1">
+                  <p>{{'Monthly Potential (Bags)' | translate}}</p>
+                  <h6>{{karigar_detail.pc_potential}} </h6>
+              </div>
+
+
+            </div>
+            
+            <div class="profile-card"  *ngIf="karigar_detail.user_type !='3' && (karigar_detail.document_type && (karigar_detail.document_image && karigar_detail.document_no) ) ">
+                <div class="text-center">
+                    <h2>{{ 'Document Information' | translate }}</h2>
+                </div>
+                <div class="text-box">
+                    <div class="doc-box"  *ngIf="karigar_detail.document_image != ''">
+                        <img src="{{uploadUrl + karigar_detail.document_image}}" (click)="viewDoc()">
+                    </div>
+                    
+                    <div class="doc-box"  *ngIf="karigar_detail.document_image_back != ''">
+                        <img src="{{uploadUrl + karigar_detail.document_image_back}}" (click)="viewDocBack()">
+                    </div>
+                </div>
+                <div class="text-box">
+                    <p>{{karigar_detail.document_type}}</p>
+                    <h6>{{karigar_detail.document_no}}</h6>
+                </div>
+            </div>
+
+            <div class="profile-card"  *ngIf="karigar_detail.user_type !='3' && (karigar_detail.pan_img && karigar_detail.pan_no) ">
+              <div class="text-center">
+                  <h2>{{ 'Pan Card Information' | translate }}</h2>
+              </div>
+              <div class="text-box">
+                  <div class="doc-box"  *ngIf="karigar_detail.pan_img != ''">
+                      <img src="{{uploadUrl + karigar_detail.pan_img}}" (click)="viewPan()">
+                  </div>
+              </div>
+              <div class="text-box">
+                  <p>{{'Pan Card Number' | translate}}</p>
+                  <h6>{{karigar_detail.pan_no }}</h6>
+              </div>
+          </div>
+            
+            <div class="profile-card" *ngIf="karigar_detail.user_type !='3'">
+                <div class="text-center">
+                    <h2>{{ 'Bank Information' | translate }}</h2>
+                </div>
+                <div class="text-box">
+                    <p>{{'Account Holder Name' | translate}}</p>
+                    <h6>{{karigar_detail.account_holder_name ? karigar_detail.account_holder_name:'----'}}</h6>
+                </div>
+                <div class="text-box">
+                    <p>{{'Bank Name' | translate}}</p>
+                    <h6>{{karigar_detail.bank_name ? karigar_detail.bank_name:'----'}}</h6>
+                </div>
+                <div class="text-box">
+                    <p>{{'Bank Account Number' | translate}}</p>
+                    <h6>{{karigar_detail.account_no ? karigar_detail.account_no:'----'}}</h6>
+                </div>
+                <div class="text-box">
+                    <p>{{'Bank IFSC Code' | translate}}</p>
+                    <h6>{{karigar_detail.ifsc_code ? karigar_detail.ifsc_code:'----'}}</h6>
+                </div>
+                <div class="text-box">
+                  <div class="doc-box"  *ngIf="karigar_detail.cheque_image != ''">
+                      <img src="{{uploadUrl + karigar_detail.cheque_image}}">
+                  </div>
+              </div>
+            </div>
+        </div>
+        
+        
+        
+        
+    </div>
+
+
+
+
+
+      <!-- <div class="pr-after flat pt40">
+        <div class="profile-detail">
+          <div class="pr-align">
+            <div class="pr-circle">
+              <div class="hidden-pr">
+                <i class="material-icons" *ngIf="!karigar_detail.profile">person</i>
+                <img src="{{uploadUrl+karigar_detail.profile}}" *ngIf="karigar_detail.profile" (click)="viewProfiePic()">
+              </div>
+            </div>
+            <div class="pr-tags">
+              <h2>{{!karigar_detail.first_name ? 'N/A' : karigar_detail.first_name |titlecase}} {{karigar_detail.last_name |titlecase}}</h2>
+              <p>{{karigar_detail.mobile_no ? karigar_detail.mobile_no : 'N/A'}}</p>
+              <div class="profile-status {{karigar_detail.status}}" *ngIf="karigar_detail.user_type == 1 || karigar_detail.user_type == 2">
+                <i class="material-icons" *ngIf="karigar_detail.status =='Verified'">verified_user</i>
+                <i class="material-icons" *ngIf="karigar_detail.status =='Pending'">hourglass_full</i>
+                <i class="material-icons" *ngIf="karigar_detail.status =='Suspect'">info</i>
+                <i class="material-icons" *ngIf="karigar_detail.status =='Reject'">cancel</i>
+                <p>{{karigar_detail.status=='Pending'? 'Pending For Verification':karigar_detail.status}}</p>
+              </div>
+            </div>
+          </div>
+          
+          <div class="profile-list">
+            <div class="list-icon" *ngIf="karigar_detail.user_type == 2">
+              <i class="material-icons" >apartment</i> {{karigar_detail.company_name |titlecase}}
+            </div>
+            
+            <div class="list-icon" *ngIf="karigar_detail.user_type == 1 || karigar_detail.user_type == 2">
+              <i class="material-icons" >cake</i> {{(karigar_detail.dob !='') ? (karigar_detail.dob| date:'d MMM,y'):('N/A')}}
+            </div>
+            <div class="list-icon" *ngIf="karigar_detail.doa !='0000-00-00'">
+              <i class="material-icons" >cake</i> {{(karigar_detail.doa !='0000-00-00') ? (karigar_detail.doa| date:'d MMM,y'):('N/A')}}
+            </div>
+            <div class="list-icon" *ngIf="karigar_detail.whatsapp_mobile_no">
+              <i class="material-icons" >whatsapp</i>{{karigar_detail.whatsapp_mobile_no ? karigar_detail.whatsapp_mobile_no : 'N/A'}}
+            </div>
+            <div class="list-icon"  *ngIf="karigar_detail.email ">
+              <i class="material-icons" >email</i>{{karigar_detail.email ? karigar_detail.email : 'N/A'}}
+            </div>
+            <div class="list-icon" *ngIf="karigar_detail.user_type =='2'">
+              <i class="material-icons" >person_pin_circle</i>{{karigar_detail.sales_zone ? karigar_detail.sales_zone:'N/A'}} 
+            </div>
+            <div class="list-icon">
+              <i class="material-icons" >place</i>{{karigar_detail.address |titlecase}}  {{!karigar_detail.city ? 'N/A' : ', '+karigar_detail.city |titlecase}}  {{!karigar_detail.district ? 'N/A' : ', '+karigar_detail.district |titlecase}} {{!karigar_detail.state ? 'N/A' :karigar_detail.state |titlecase}} {{!karigar_detail.pincode ? 'N/A' :karigar_detail.pincode}}
+            </div>
+            <div class="list-icon">
+              <i class="material-icons" ></i>KYC Status : {{karigar_detail.kyc_status |titlecase}}
+            </div>
+          </div>
+        </div>
+       
+      </div> -->
+      <!-- <div class="heading line mt18 mb16" *ngIf="karigar_detail.user_type !='3' && (karigar_detail.document_type && (karigar_detail.document_image && karigar_detail.document_no) ) ">
+        <p>{{'Document Information' | translate}}</p>
+      </div> -->
+      <!-- <div class="adhar" *ngIf="karigar_detail.user_type !='3' && (karigar_detail.document_type && (karigar_detail.document_image && karigar_detail.document_no) ) ">
+        <img src="{{uploadUrl + karigar_detail.document_image}}" (click)="viewDoc()">
+        <img src="{{uploadUrl + karigar_detail.document_image_back}}" *ngIf="karigar_detail.document_image_back != ''" (click)="viewDocBack()">
+        <p>{{karigar_detail.document_type}}</p>
+       
+        <h1>
+          {{karigar_detail.document_no ? karigar_detail.document_no:'N/A'}}
+        </h1>
+      </div> -->
+    </ng-container >
+    <ng-container *ngSwitchCase="'site'">
+      <div class="padding16">
+
+        <div class="cs-list after-none pb0" *ngFor="let row of data; let i = index;" (click)="goOnSiteDetail(row.id)">
+          <div class="top-block">
+            <p>{{row.date_created |  date:'d MMMM y'}}</p>
+            <ion-icon name="arrow-forward" color="secondary"  ios="ios-arrow-forward"></ion-icon>
+          </div>
+          
+          <div class="block-item">
+            <div class="column-blocks">
+              <div class="blocks">
+                <p>{{'Created By' | translate}} : <strong>{{row.created_name | titlecase}}</strong></p>
+              </div>
+            </div>
+            <div class="column-blocks">
+              <div class="blocks">
+                <p>{{'Owner Detail' | translate}} : <strong>{{row.site_owner_name |titlecase}} - {{row.site_owner_contact}}</strong></p>
+              </div>
+            </div>
+            <div class="column-blocks">
+              <div class="blocks">
+                <p>{{'State' | translate}} : <strong>{{row.state}}</strong></p>
+              </div>
+              <div class="blocks">
+                <p>{{'District' | translate}} : <strong>{{row.district}}</strong> </p>
+              </div>
+            </div>
+            <div class="column-blocks">
+              <div class="blocks">
+                <p>{{'City' | translate}} : <strong>{{row.city}}</strong></p>
+              </div>
+              <div class="blocks">
+                <p>{{'Sale Zone' | translate}} : <strong>{{row.sales_zone}}</strong> </p>
+              </div>
+            </div>
+            <div class="column-blocks bg-grey">
+              <div class="blocks">
+                <p><strong>{{'Address' | translate}}: {{row.address | titlecase}}</strong></p>
+              </div>
+            </div>
+            <div class="column-blocks">
+              <div class="blocks" [ngClass]="{'visit': row.visit_count != 0 , 'no-visit': row.visit_count == 0}">
+                <span *ngIf="row.visit_count != 0">Visited</span>
+                <span *ngIf="row.visit_count == 0">Not Visited</span>
+              </div>
+              <div class="blocks" [ngClass]="{'pur': row.purchase_count != 0 , 'no-pur': row.purchase_count == 0}">
+                <span>{{'Total Purchase' | translate}}: {{row.purchase_count}}</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+        <div class="image-detail"  *ngIf="!data.length">
+          <img src="assets/imgs/no_found.svg">
+        </div>
+      </div>
+      
+      <ion-infinite-scroll threshold="100px" (ionInfinite)="loadData($event)"  *ngIf="flag!=1">
+        <ion-infinite-scroll-content
+        loadingSpinner="bubbles"
+        loadingText="{{'Loading more data...' | translate}}">
+      </ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+  </ng-container>
+  <ng-container *ngSwitchCase="'purchase'">
+    <div class="padding16">
+      <div class="cs-list" *ngFor="let row of purData; let i = index;" (click)="purchaseDetail(row.id)">
+        <div class="top-block">
+          <p><a class="link">#Pur{{row.id}}</a> &nbsp;      {{row.date_created |  date:'d MMMM y'}}</p>
+          <ion-icon name="arrow-forward" color="secondary"  ios="ios-arrow-forward"></ion-icon>
+        </div>
+        <div class="middle-block">
+          <div class="three-block pb0">
+            <p>{{'Created By' | translate}} : <strong>{{row.created_name | titlecase}}</strong></p>
+          </div>
+          <div class="three-block pb0">
+            <p>{{'Site Address' | translate}} : {{row.site_address}}, {{row.state}}, {{row.district}}</p>
+          </div>
+          <div class="three-block">
+            <p>{{'Product' | translate}} : <strong>{{row.product_name}}</strong></p>
+            <p>{{'QTY.' | translate}} : <strong>{{row.qty}}</strong> </p>
+          </div>
+          
+          <div class="three-block">
+            <p *ngIf="row.verify_at =='Dealer'">{{'Status' | translate}} : <strong class="{{row.dealer_status}}">{{row.dealer_status}}</strong></p>
+            <p *ngIf="row.verify_at == 'SalesTeam'">{{'Status' | translate}} : <strong class="{{row.company_status}}">{{row.company_status}}</strong> </p>
+          </div>
+        </div>
+        <div class="top-block footer-block" *ngIf="userType == '2' && row.dealer_points > 0">
+          <p>{{'Earned Points' | translate}}: {{row.dealer_points}}</p>
+        </div>
+        <div class="top-block footer-block" *ngIf="userType == '1' && row.karigar_points > 0 ">
+          <p>{{'Earned Points' | translate}}: {{row.karigar_points}}</p>
+        </div>
+      </div>
+      
+      <div class="image-detail"  *ngIf="!purData.length">
+        <img src="assets/imgs/no_found.svg">
+      </div>
+    </div>
+    <ion-infinite-scroll threshold="100px" (ionInfinite)="loadPurData($event)"  *ngIf="flag!=1">
+      <ion-infinite-scroll-content
+      loadingSpinner="bubbles"
+      loadingText="{{'Loading more data...' | translate}}">
+    </ion-infinite-scroll-content>
+  </ion-infinite-scroll>
+</ng-container>
+<ng-container *ngSwitchCase="'offer'">
+  <div class="Product m16">
+    <button ion-item class="bg-product mb16" *ngFor="let list of offer_list;let i=index" (click)="goOnOffersPage(list.id)">
+      <div class="thumbnail">
+        <!-- <img src="{{uploadUrl}}{{list.offer_banner}}"> -->
+        <img src="{{uploadUrl + list.banner}}">
+      </div>
+      <div class="errow">
+        <div class="list-tags wthspan">
+          <h1>{{lang != 'en'? list.hin_title : list.title |titlecase}}</h1>
+          <p>{{'Valid Upto' | translate}} : {{list.end_date | date:'d MMMM y'}}</p>
+        </div>
+        <i class="material-icons mr10">trending_flat</i>
+      </div>
+    </button>
+  </div>
+  
+  <div class="image-detail" *ngIf="offer_list.length == 0">
+    <img src="assets/imgs/no_found.svg">
+  </div>
+</ng-container>
+</ng-container>
+</ion-content>

@@ -1,0 +1,17 @@
+page-contractor-add {
+    
+    .sprate-block {
+        padding:10px;
+        border: 1px dashed #d9ad0c;
+        border-radius: 6px;
+        margin-top: 16px;
+    }
+
+    .item-flex{
+        display: flex;
+        align-items: center;
+        width: 100%;
+        justify-content: space-between;
+        grid-column-gap: 10px;
+    }
+}
